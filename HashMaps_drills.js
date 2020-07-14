@@ -1,7 +1,6 @@
 import HashMap from './HashMap.js';
 
-//const _HashMap = new HashMap();
-
+//1. Create a HashMap class
 function main() {
     HashMap.SIZE_RATIO = 3;
     HashMap.MAX_LOAD_RATIO = 0.5;
@@ -19,41 +18,83 @@ function main() {
     lotr.set('HalfElven', 'Arwen');
     lotr.set('Ent', 'Treebeard');
 
-    const item = lotr.get('Hobbit')
+    const item = lotr.get('Hobbit');
     return lotr;
 }
-
 //console.log(main());
 
-const WhatDoesThisDo = function(){
+//2. What does the follow code output
+const WhatDoesThisDo = function () {
     let str1 = 'Hello World.';
     let str2 = 'Hello World.';
     let map1 = new HashMap();
-    map1.set(str1,10);
-    map1.set(str2,20);
+    map1.set(str1, 10);
+    map1.set(str2, 20);
     let map2 = new HashMap();
     let str3 = str1;
     let str4 = str2;
-    map2.set(str3,20);
-    map2.set(str4,10);
+    map2.set(str3, 20);
+    map2.set(str4, 10);
     //console.log(map1, map2)
 
     console.log(map1.get(str1));
     console.log(map2.get(str3));
-}
+};
 //WhatDoesThisDo()
 
-//console.log(5%9, 28%9, 19%9, 15%9, 20%9, 33%9, 12%9, 17%9, 10%9)
-
-function deleteDuplicate(string){
-    let arr = []
-    for(let i=0; i<string.length; i++){
-        if(arr.includes(string.charAt(i))){
+//4. Remove duplicates
+function deleteDuplicate(string) {
+    let arr = [];
+    for (let i = 0; i < string.length; i++) {
+        if (arr.includes(string.charAt(i))) {
             arr;
-        }
-        else arr.push(string.charAt(i))
+        } else arr.push(string.charAt(i));
     }
     return arr;
 }
 
-console.log(deleteDuplicate('google all that you think can think of'))
+//console.log(deleteDuplicate('google all that you think can think of'))
+
+//5. Any permutation a palindrome
+function permutationIsAPalindrome(possPalin) {
+    let string = possPalin.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+
+    //first find all permutations
+    const possiblePermutations = [];
+    function findPermutations(string, perm = '') {
+        const seen = new Set();
+        if (!string) possiblePermutations.push(perm);
+        for (let i = 0; i < string.length; i++) {
+            if (!seen.has(string[i])) {
+                seen.add(string[i]);
+                findPermutations(string.slice(0, i) + string.slice(i + 1), perm + string[i]);
+            }
+        }
+    }
+    findPermutations(string);
+
+    let foundPalindromes = []
+    //then reverse each permutation to see if a palindrome
+    possiblePermutations.forEach(word => {
+        let reversedStr = '';
+        for (let i = word.length - 1; i >= 0; i--) {
+            let eachChar = word.charAt(i);
+            reversedStr = ''.concat(reversedStr, eachChar);
+        }
+        //if palindrome, add to array 
+        if (word == reversedStr) {
+            foundPalindromes.push(word);
+        } 
+    });
+    //if we found any palindromes, then return true
+    if(foundPalindromes[0]){
+        return true
+    } else return false
+}
+
+console.log(permutationIsAPalindrome('moma'))
+//false
+console.log(permutationIsAPalindrome('acecarr'));
+//true
+console.log(permutationIsAPalindrome('north'));
+//false
