@@ -127,7 +127,7 @@ function groupAnagrams(array) {
             console.log(arrToPass[k])
             return arrToPass
         }
-        
+        //testing
         possiblePermutations.push(PossPermsForWord);
         //console.log(PossPermsForWord)
         //newARr.push(string)
