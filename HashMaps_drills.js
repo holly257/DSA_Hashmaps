@@ -59,7 +59,7 @@ function deleteDuplicate(string) {
 function permutationIsAPalindrome(possPalin) {
     let string = possPalin.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
 
-    //first find all permutations
+    //first find all anagram permutations
     const possiblePermutations = [];
     function findPermutations(string, perm = '') {
         const seen = new Set();
@@ -73,7 +73,7 @@ function permutationIsAPalindrome(possPalin) {
     }
     findPermutations(string);
 
-    let foundPalindromes = []
+    let foundPalindromes = [];
     //then reverse each permutation to see if a palindrome
     possiblePermutations.forEach(word => {
         let reversedStr = '';
@@ -81,20 +81,73 @@ function permutationIsAPalindrome(possPalin) {
             let eachChar = word.charAt(i);
             reversedStr = ''.concat(reversedStr, eachChar);
         }
-        //if palindrome, add to array 
+        //if palindrome, add to array
         if (word == reversedStr) {
             foundPalindromes.push(word);
-        } 
+        }
     });
     //if we found any palindromes, then return true
-    if(foundPalindromes[0]){
-        return true
-    } else return false
+    if (foundPalindromes[0]) {
+        return true;
+    } else return false;
 }
 
-console.log(permutationIsAPalindrome('moma'))
+//console.log(permutationIsAPalindrome('moma'))
 //false
-console.log(permutationIsAPalindrome('acecarr'));
+//console.log(permutationIsAPalindrome('acecarr'));
 //true
-console.log(permutationIsAPalindrome('north'));
+//console.log(permutationIsAPalindrome('north'));
 //false
+
+//6. Anagram grouping
+function groupAnagrams(array) {
+    const possiblePermutations = [];
+    const newARr = []
+
+    for (let j = 0; j < array.length; j++) {
+        let arrToPass = array;
+    //array.forEach(string => {
+        //console.log(array[j])
+        let PossPermsForWord = [];
+        function findPermutations(string, perm = '') {
+            const seen = new Set();
+            if (!string) PossPermsForWord.push(perm);
+            for (let i = 0; i < string.length; i++) {
+                if (!seen.has(string[i])) {
+                    seen.add(string[i]);
+                    findPermutations(string.slice(0, i) + string.slice(i + 1), perm + string[i]);
+                }
+            }
+        }
+        findPermutations(arrToPass[j]);
+        for(let k = 0; k < array.length-5; k++){
+            if(PossPermsForWord.includes(array[k])){
+                arrToPass = arrToPass.filter(word => word !== array[k])
+            }
+            console.log(arrToPass[k])
+            return arrToPass
+        }
+        
+        possiblePermutations.push(PossPermsForWord);
+        //console.log(PossPermsForWord)
+        //newARr.push(string)
+    };
+
+    // let finalArr = []
+    // for (let i = 0; i < possiblePermutations.length; i++) {
+    //     let eachSubArr = []
+    //     for (let j = 0; j < possiblePermutations.length; j++) {
+            
+    //         if (array.includes(possiblePermutations[i][j])) {
+    //             eachSubArr.push(possiblePermutations[i][j])
+    //         }
+    //     }
+    //     finalArr.push(eachSubArr)
+    // }
+
+    return possiblePermutations;
+}
+
+let input = ['east', 'eats', 'cars', 'acre', 'arcs', 'teas', 'race'];
+console.log(groupAnagrams(input));
+//output [['east', 'teas', 'eats'], ['cars', 'arcs'], ['acre', 'race']]
