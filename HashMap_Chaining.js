@@ -25,11 +25,20 @@ class HashMap_Chaining {
         if (!this._hashTable[index]) {
             this.length++;
         }
-        this._hashTable[index] = {
-            key,
-            value,
-            DELETED: false,
-        };
+
+        //if slot taken, create linked list
+        if (index[1] === 'taken') {
+            let takenKey = this._hashTable[index[0]];
+            this._createLinkedList(takenKey, value);
+        } else {
+            //if slot is empty, create new item
+            this._hashTable[index] = {
+                key,
+                value,
+                DELETED: false,
+                next: null,
+            };
+        }
     }
 
     delete(key) {
@@ -50,29 +59,27 @@ class HashMap_Chaining {
         for (let i = start; i < start + this._capacity; i++) {
             const index = i % this._capacity;
             const slot = this._hashTable[index];
+            //if the slot is empty, return
             if (slot === undefined) {
                 return index;
-            } 
-            else if(slot.key === key && !slot.DELETED){
-                //loop to find empty slot
-                //return this._findNextEmptySlot(slot, index)
-                //return index;
-                console.log('slot', slot)
+            } else {
+                //if the slot is already taken, return to create linked list
+                let val = [index, 'taken'];
+                return val;
             }
         }
     }
 
-    // _findNextEmptySlot(key, index){
-    //     //console.log(this._capacity)
-    //     for(let i=index; i<this._capacity; i++){
-    //         let new_slot = this._hashTable[i]
-    //         //console.log(new_slot, this._hashTable[i])
-    //         if(new_slot === undefined){
-    //             //console.log(new_slot)
-    //         }
-    //     }
-    //     //console.log(key, index)
-    // }
+    _createLinkedList(takenKey, value) {
+        //if first value for index, create linked list
+        if (takenKey.next === null) {
+            takenKey.next = { value, DELETED: false, next: null };
+        } else {
+            //if more than one value, loop until you find an empty next value
+            takenKey = takenKey.next;
+            this._createLinkedList(takenKey, value);
+        }
+    }
 
     _resize(size) {
         const oldSlots = this._hashTable;

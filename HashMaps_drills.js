@@ -1,5 +1,5 @@
 import HashMap from './HashMap.js';
-import HashMap_Chaining from './HashMap_Chaining.js'
+import HashMap_Chaining from './HashMap_Chaining.js';
 
 //1. Create a HashMap class
 function main() {
@@ -59,12 +59,12 @@ function deleteDuplicate(string) {
 //5. Any permutation a palindrome
 //works, but doesn's solve using a hashmap/object
 //brute force solution -> try to solve better way
-//dont need to find permutations of every word -> inefficient 
-//think: 
-    //1. count num of occurances of each char
-    //2. count the num of odd numbered char
-        //if > 1 then NOT a palindrome, 
-        //else IS a palindrome
+//dont need to find permutations of every word -> inefficient
+//think:
+//1. count num of occurances of each char
+//2. count the num of odd numbered char
+//if > 1 then NOT a palindrome,
+//else IS a palindrome
 function permutationIsAPalindrome(possPalin) {
     let string = possPalin.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
 
@@ -116,24 +116,23 @@ function permutationIsAPalindrome(possPalin) {
 //could use object to store -> key associates with specific anagram array
 //sets seat
 
-function findAnagram(words){
-    const result = {} //hash map
+function findAnagram(words) {
+    const result = {}; //hash map
 
     words.forEach(word => {
-        let sortedWord = word.split('').sort().join('')
+        let sortedWord = word.split('').sort().join('');
 
-        if(result[sortedWord]) {
+        if (result[sortedWord]) {
             //already in hashmap
-            result[sortedWord].push(word)
+            result[sortedWord].push(word);
         } else {
             //does not yet exist
-            result[sortedWord] = [word]
+            result[sortedWord] = [word];
         }
-    })
+    });
 
-    return Object.values(result)
+    return Object.values(result);
 }
-
 
 let input = ['east', 'eats', 'cars', 'acre', 'arcs', 'teas', 'race'];
 //console.log(findAnagram(input));
@@ -146,6 +145,7 @@ function newHashMap() {
 
     lotr.set('Hobbit', 'Bilbo');
     lotr.set('Hobbit', 'Frodo');
+    lotr.set('Hobbit', 'test');
     lotr.set('Wizard', 'Gandalf');
     lotr.set('Human', 'Aragorn');
     lotr.set('Elf', 'Legolas');
@@ -156,7 +156,6 @@ function newHashMap() {
     lotr.set('HalfElven', 'Arwen');
     lotr.set('Ent', 'Treebeard');
 
-    const item = lotr.get('Hobbit');
     return lotr;
 }
-//console.log(newHashMap());
+console.log(newHashMap());

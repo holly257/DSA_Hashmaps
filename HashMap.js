@@ -52,7 +52,7 @@ class HashMap {
             const slot = this._hashTable[index];
             if (slot === undefined || (slot.key === key && !slot.DELETED)) {
                 return index;
-            } 
+            }
         }
     }
 
