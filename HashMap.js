@@ -53,26 +53,8 @@ class HashMap {
             if (slot === undefined || (slot.key === key && !slot.DELETED)) {
                 return index;
             } 
-            // else if(){
-            //     //loop to find empty slot
-            //     return this._findNextEmptySlot(slot, index)
-            //     //return index;
-            //     //console.log(slot)
-            // }
         }
     }
-
-    // _findNextEmptySlot(key, index){
-    //     //console.log(this._capacity)
-    //     for(let i=index; i<this._capacity; i++){
-    //         let new_slot = this._hashTable[i]
-    //         //console.log(new_slot, this._hashTable[i])
-    //         if(new_slot === undefined){
-    //             //console.log(new_slot)
-    //         }
-    //     }
-    //     //console.log(key, index)
-    // }
 
     _resize(size) {
         const oldSlots = this._hashTable;

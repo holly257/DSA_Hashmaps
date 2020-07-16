@@ -1,4 +1,5 @@
 import HashMap from './HashMap.js';
+import HashMap_Chaining from './HashMap_Chaining.js'
 
 //1. Create a HashMap class
 function main() {
@@ -56,6 +57,14 @@ function deleteDuplicate(string) {
 //console.log(deleteDuplicate('google all that you think can think of'))
 
 //5. Any permutation a palindrome
+//works, but doesn's solve using a hashmap/object
+//brute force solution -> try to solve better way
+//dont need to find permutations of every word -> inefficient 
+//think: 
+    //1. count num of occurances of each char
+    //2. count the num of odd numbered char
+        //if > 1 then NOT a palindrome, 
+        //else IS a palindrome
 function permutationIsAPalindrome(possPalin) {
     let string = possPalin.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
 
@@ -100,54 +109,54 @@ function permutationIsAPalindrome(possPalin) {
 //false
 
 //6. Anagram grouping
-function groupAnagrams(array) {
-    const possiblePermutations = [];
-    const newARr = []
 
-    for (let j = 0; j < array.length; j++) {
-        let arrToPass = array;
-    //array.forEach(string => {
-        //console.log(array[j])
-        let PossPermsForWord = [];
-        function findPermutations(string, perm = '') {
-            const seen = new Set();
-            if (!string) PossPermsForWord.push(perm);
-            for (let i = 0; i < string.length; i++) {
-                if (!seen.has(string[i])) {
-                    seen.add(string[i]);
-                    findPermutations(string.slice(0, i) + string.slice(i + 1), perm + string[i]);
-                }
-            }
+//if same length
+//sort letters -> anagrams would be sorted into same order
+//if anagram -> create seperate array to push
+//could use object to store -> key associates with specific anagram array
+//sets seat
+
+function findAnagram(words){
+    const result = {} //hash map
+
+    words.forEach(word => {
+        let sortedWord = word.split('').sort().join('')
+
+        if(result[sortedWord]) {
+            //already in hashmap
+            result[sortedWord].push(word)
+        } else {
+            //does not yet exist
+            result[sortedWord] = [word]
         }
-        findPermutations(arrToPass[j]);
-        for(let k = 0; k < array.length-5; k++){
-            if(PossPermsForWord.includes(array[k])){
-                arrToPass = arrToPass.filter(word => word !== array[k])
-            }
-            console.log(arrToPass[k])
-            return arrToPass
-        }
-        //testing
-        possiblePermutations.push(PossPermsForWord);
-        //console.log(PossPermsForWord)
-        //newARr.push(string)
-    };
+    })
 
-    // let finalArr = []
-    // for (let i = 0; i < possiblePermutations.length; i++) {
-    //     let eachSubArr = []
-    //     for (let j = 0; j < possiblePermutations.length; j++) {
-            
-    //         if (array.includes(possiblePermutations[i][j])) {
-    //             eachSubArr.push(possiblePermutations[i][j])
-    //         }
-    //     }
-    //     finalArr.push(eachSubArr)
-    // }
-
-    return possiblePermutations;
+    return Object.values(result)
 }
 
+
 let input = ['east', 'eats', 'cars', 'acre', 'arcs', 'teas', 'race'];
-console.log(groupAnagrams(input));
+//console.log(findAnagram(input));
 //output [['east', 'teas', 'eats'], ['cars', 'arcs'], ['acre', 'race']]
+
+function newHashMap() {
+    HashMap_Chaining.SIZE_RATIO = 3;
+    HashMap_Chaining.MAX_LOAD_RATIO = 0.5;
+    let lotr = new HashMap_Chaining();
+
+    lotr.set('Hobbit', 'Bilbo');
+    lotr.set('Hobbit', 'Frodo');
+    lotr.set('Wizard', 'Gandalf');
+    lotr.set('Human', 'Aragorn');
+    lotr.set('Elf', 'Legolas');
+    lotr.set('Maiar', 'The Necromancer');
+    lotr.set('Maiar', 'Sauron');
+    lotr.set('RingBearer', 'Gollum');
+    lotr.set('LadyOfLight', 'Galadriel');
+    lotr.set('HalfElven', 'Arwen');
+    lotr.set('Ent', 'Treebeard');
+
+    const item = lotr.get('Hobbit');
+    return lotr;
+}
+//console.log(newHashMap());
